@@ -84,4 +84,7 @@ def transaction_success(request):
 
 
 
-        
+@login_required
+def transaction_history(request):
+    transactions=RFIDCardLog.objects.filter(user=request.user)
+    return render(request,'transaction_history.html',{'transactions':transactions})

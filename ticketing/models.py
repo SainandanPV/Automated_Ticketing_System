@@ -2,7 +2,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from geopy.distance import geodesic
+import requests
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -33,10 +33,22 @@ class RFIDCardLog(models.Model):
         return f"Transaction for {self.rfid_card.uid} by {self.user.username}"
     
     def calculate_distance(self):
-        start_location=(self.start_latitude,self.start_longitude)
-        end_location = (self.end_latitude, self.end_longitude)
+        origin=f"{self.start_latitude},{self.start_longitude}"
+        destination=f"{self.end_latitude},{self.end_longitude}"
+        google_maps_api_key='AIzaSyBtOUAH8tyxMwEGLMxmRPoYBhGRS3zaOlc'
+        url=f"https://maps.googleapis.com/maps/api/directions/json?origin={origin}&destination={destination}&key={google_maps_api_key}"
 
-        return geodesic(start_location,end_location).kilometers
+        response=requests.get(url)
+        directions_data=response.json()
+
+        if directions_data['status']=='OK':
+            route=directions_data['routes'][0]
+            leg=route['legs'][0]
+            distance=leg['distance']['value']
+            return distance/1000
+        else:
+            return None
+
     
     def calculate_amount(self):
         distance=self.calculate_distance()

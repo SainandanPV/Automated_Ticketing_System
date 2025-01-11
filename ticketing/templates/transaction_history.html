@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Automated Bus Ticketing System{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Bus Ticketing System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/card-details/">Card Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/transaction-history/">Transaction History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout/">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login/">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register/">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer class="footer bg-dark text-white text-center py-3">
+        <p>&copy; 2025 Automated Bus Ticketing System. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
